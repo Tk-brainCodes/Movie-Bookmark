@@ -1,9 +1,14 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import { Montserrat } from "@next/font/google";
 import { Inter } from 'next/font/google'
 import { Providers } from '../../context/redux.provider'
 
-const inter = Inter({ subsets: ['latin'] })
+const monstserrat = Montserrat({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-monstserrat",
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={`${monstserrat.className} px-4 py-4 block items-center`}>
         <Providers>{children}</Providers>
       </body>
     </html>
