@@ -1,7 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import bookmarkReducer from "./features/bookmarkSlice";
+
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    bookmark: bookmarkReducer, 
+  },
   devTools: process.env.NODE_ENV !== "production",
 });
 
