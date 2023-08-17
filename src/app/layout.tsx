@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`${monstserrat.className} px-4 py-4 block items-center`}>
+      <body className={`${monstserrat.className}  block items-center`}>
         <Providers>{children}</Providers>
       </body>
     </html>
