@@ -23,9 +23,9 @@ const bookmarkSlice = createSlice({
     addMovieToBookmarked(state, action: PayloadAction<MovieThunkProp>) {
       state.bookmarked.unshift(action.payload);
     },
-    removeFromBookmarked(state, action: PayloadAction<MovieThunkProp>) {
+    removeFromBookmarked(state, action: PayloadAction<number>) {
       state.bookmarked = state.bookmarked.filter(
-        (movie) => movie.id !== action.payload.id
+        (movie) => movie.id !== action.payload
       );
     },
     addBookmarkFail(state, action: PayloadAction<string>) {
@@ -45,6 +45,7 @@ export const {
   removeFromBookmarked,
   addBookmarkFail,
   getBookmarkError,
+  setUser,
 } = bookmarkSlice.actions;
 
 export default bookmarkSlice.reducer;
