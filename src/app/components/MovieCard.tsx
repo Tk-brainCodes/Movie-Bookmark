@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
 import {
-  removeFromBookmarked,
-  addMovieToBookmarked,
-} from "../../../redux/features/bookmarkSlice";
-import { MovieCardProps, MovieThunkProp } from "../../../types/movie.type";
+  addMovieToBookmarkedDB,
+  removeMovieFromBookmarks,
+} from "../../../redux/features/bookmarkThunk";
+import { MovieCardProps } from "../../../types/movie.type";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase.config";
 import { Toaster } from "react-hot-toast";
@@ -52,27 +53,32 @@ export default function MovieCard({
     return !!doesMovieExist;
   });
 
-  const handleAddToBookmark = () => {
-    dispatch(addMovieToBookmarked(movieData));
-    setBookmarked((prev) => !prev);
+  const handleAddToBookmark = (movie: any) => {
+    try {
+      if (user) {
+        dispatch(addMovieToBookmarkedDB(movie));
+        setBookmarked((prev) => !prev);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleRemoveMovieFromBookmark = () => {
-    dispatch(removeFromBookmarked(movieData));
-    setBookmarked((prev) => !prev);
+  const handleRemoveMovieFromBookmark = (id: number) => {
+    if (user) {
+      dispatch(removeMovieFromBookmarks(id));
+      setBookmarked((prev) => !prev);
+    }
   };
-
-  let addIfExists = exists
-    ? handleAddToBookmark
-    : handleRemoveMovieFromBookmark;
 
   useEffect(() => {
     checkIfItemExists();
-  });
+  }, [exists, bookmarks]);
+
 
   return (
     <div className='w-fit mt-[20px]'>
-      <Toaster/>
+      <Toaster />
       <div className='w-[250px]'>
         <Image
           src={imagePath + poster_path}
@@ -101,7 +107,16 @@ export default function MovieCard({
               <span> {release_date?.substring(0, 4)}</span>
             </p>
           </div>
-          <button onClick={addIfExists}>
+          <button
+            className='px-3 py-2 text-blue-500 rounded-full hover:text-blue-400'
+            onClick={() => {
+              if (exists) {
+                handleRemoveMovieFromBookmark(movieId);
+              } else {
+                handleAddToBookmark(movieData);
+              }
+            }}
+          >
             {exists ? (
               <BookmarkIcon
                 style={{ fontSize: "20px" }}
