@@ -14,14 +14,25 @@ import {
   addBookmarkFail,
   addMovieToBookmarked,
   getBookmarkError,
+  removeFromBookmarked,
 } from "./bookmarkSlice";
-
-
+import { signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../../firebase.config";
 import toast from "react-hot-toast";
 
 export const notifySuccess = (message: string) => toast.success(message);
 export const notifyError = (message: string) => toast.error(message);
 
+//user logout
+export const logout = createAsyncThunk("auth/logout", async () => {
+  await signOut(auth);
+});
+
+//Google sign-in
+export const googleSignIn = createAsyncThunk("auth/googleSignIn", async () => {
+  const googleAuthProvider = new GoogleAuthProvider();
+  await signInWithPopup(auth, googleAuthProvider);
+});
 
 //add movies bookmarks
 export const addMovieToBookmarkedDB = createAsyncThunk(
@@ -50,8 +61,8 @@ export const addMovieToBookmarkedDB = createAsyncThunk(
           poster_path,
           title,
         });
-        dispatch(addMovieToBookmarked(movie));
         notifySuccess(`${title} has been successfully added`);
+        dispatch(addMovieToBookmarked(movie));
       }
     } catch (error: any) {
       notifyError(`failed to add  ${title}  ${error}`);
@@ -70,11 +81,11 @@ export const addMovieToBookmarkedDB = createAsyncThunk(
 export const removeMovieFromBookmarks = createAsyncThunk(
   "bookmark/removeMovieFromBookmarks",
   async (id: number, { dispatch, getState }) => {
-    const movieId = id.toString();
     const state = getState() as RootState;
     const user = state.bookmark.user;
+    const movieId = id.toString();
     try {
-      dispatch({ type: "REMOVE_FROM_BOOKMARKED", payload: id });
+      dispatch(removeFromBookmarked(id));
       await deleteDoc(doc(db, `${user?.uid as string}`, movieId));
       notifySuccess(`Movie Id: ${id} was successfully deleted`);
       // location.reload();
@@ -97,14 +108,12 @@ export const getBookmarksFromFirebaseDB = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     const user = state.bookmark.user;
-
     const getBookmarkItems = async (db: any) => {
       const bookmarkCol = collection(db, `${user?.uid as string}`);
       const bookmarkSnapshot = await getDocs(bookmarkCol);
       const bookmarkList = bookmarkSnapshot.docs.map((doc) => doc.data());
       return bookmarkList;
     };
-
     try {
       let allBookmarks = await getBookmarkItems(db);
       if (allBookmarks.length) {
