@@ -86,9 +86,8 @@ export const removeMovieFromBookmarks = createAsyncThunk(
     const movieId = id.toString();
     try {
       dispatch(removeFromBookmarked(id));
-      await deleteDoc(doc(db, `${user?.uid as string}`, movieId));
+      await deleteDoc(doc(db, `${user?.uid as string}`, movieId))
       notifySuccess(`Movie Id: ${id} was successfully deleted`);
-      // location.reload();
     } catch (error: any) {
       notifyError(`failed to remove  ${id}`);
       dispatch({

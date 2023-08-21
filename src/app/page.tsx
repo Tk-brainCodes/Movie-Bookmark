@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from 'react';
 import { results } from "../../data/movie";
 import { useAppSelector } from "../../redux/hooks";
 import MovieCard from "./components/MovieCard";
 import AnimatedWrapper from "./components/AnimationWrapper";
 import Header from "./components/Header";
+import { getBookmarksFromFirebaseDB } from "../../redux/features/bookmarkThunk";
+import { useAppDispatch } from '../../redux/hooks';
+
 
 export default function Home() {
   const user: any = useAppSelector((state) => state.bookmark.user);
+  const dispatch = useAppDispatch();
+
+
+  useEffect(() => {
+    dispatch(getBookmarksFromFirebaseDB());
+  }, [dispatch])
 
   return (
     <>

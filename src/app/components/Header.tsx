@@ -10,11 +10,15 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../firebase.config";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Header = () => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.bookmark.user);
+    const bookmarkedMovies = useAppSelector(
+      (state) => state.bookmark.bookmarked
+    );
   const [firebaseError, setFirebaseError] = useState<string>("");
 
   const handleGoogleSignIn = async () => {
@@ -41,7 +45,9 @@ const Header = () => {
           {firebaseError}
         </h3>
       )}
-      <span className='text-sm text-orange-600'>myBookmarks</span>
+      <h3 className='text-sm text-orange-600'>
+        my<span className="text-white">Bookmarks</span>
+      </h3>
       <div className='flex gap-3'>
         <button
           className='px-3 py-2 bg-blue-600 text-sm text-white rounded-full'
@@ -60,30 +66,32 @@ const Header = () => {
             priority
           />
         )}
-        <button
-          className={`${
-            pathname === "/bookmarked"
-              ? "text-orange-400 font-semibold"
-              : "text-white"
-          } block max-sm:hidden relative`}
-          data-cy='bookmark-icon'
-        >
-          <motion.span
-            whileHover={{ scale: 1.1 }}
-            transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 10,
-            }}
+        <Link href='/bookmarks'>
+          <button
+            className={`${
+              pathname === "/bookmarked"
+                ? "text-orange-400 font-semibold"
+                : "text-white"
+            } block relative`}
+            data-cy='bookmark-icon'
           >
-            <BookmarkBorderIcon />
-          </motion.span>
-          {/* {length && ( */}
-          <span className='absolute -top-[8px] -right-[10px] w-5 h-5 bg-red-600 rounded-full flex items-center font-normal justify-center text-white text-xs'>
-            4
-          </span>
-          {/* )} */}
-        </button>
+            <motion.span
+              whileHover={{ scale: 1.1 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 10,
+              }}
+            >
+              <BookmarkBorderIcon />
+            </motion.span>
+            {bookmarkedMovies && (
+              <span className='absolute -top-[8px] -right-[10px] w-5 h-5 bg-red-600 rounded-full flex items-center font-normal justify-center text-white text-xs'>
+                4
+              </span>
+            )}
+          </button>
+        </Link>
       </div>
     </div>
   );
