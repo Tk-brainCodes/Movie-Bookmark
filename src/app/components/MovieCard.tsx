@@ -120,7 +120,7 @@ export default function MovieCard({
             {exists ? (
               <BookmarkIcon
                 style={{ fontSize: "20px" }}
-                className='bg-blue-300  cursor-pointer'
+                className='text-blue-300  cursor-pointer'
               />
             ) : (
               <BookmarkBorderIcon
