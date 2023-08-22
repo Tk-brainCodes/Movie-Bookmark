@@ -1,43 +1,38 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAppDispatch } from "../../../redux/hooks";
+import {useAppSelector, useAppDispatch } from "../../../redux/hooks";
 import {
   getBookmarksFromFirebaseDB,
   removeMovieFromBookmarks,
 } from "../../../redux/features/bookmarkThunk";
+import { Toaster } from "react-hot-toast";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Image from "next/image";
 
+
 const Bookmark = () => {
   const imagePath = "https://image.tmdb.org/t/p/original";
-  const [storedBookmarks, setStoredBookmarks] = useState<any[]>([]);
+  const bookmarkedMovies = useAppSelector((state) => state.bookmark.bookmarked);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getBookmarksFromFirebaseDB());
   }, [dispatch]);
 
-  useEffect(() => {
-    const storedBookmarksInLocalStorage =
-      typeof window !== "undefined"
-        ? JSON.parse(localStorage.getItem("myBookmarks") || "[]")
-        : "";
-    setStoredBookmarks(
-      storedBookmarksInLocalStorage,
-   );
-  }, []);
+
 
   return (
-    <div className='px-6 py-6 w-[100vw]'>
+    <div className='px-6 py-6 w-[100vw] overflow-x-hidden'>
+        <Toaster />
       <h1 className='font-semibold mb-[20px] text-white'>My Bookmarks</h1>
       <div>
-        {storedBookmarks?.length === 0 ? (
+        {bookmarkedMovies?.length === 0 ? (
           <h2>Sorry no bookmarks :(</h2>
         ) : (
           <>
             <div className='grid grid-cols-fluid gap-3 items-center max-sm:flex max-sm:justify-center max-sm:flex-col'>
-              {storedBookmarks?.map((movie: any) => (
+              {bookmarkedMovies?.map((movie: any) => (
                 <div key={movie?.id} className='w-[250px]'>
                   <Image
                     src={imagePath + movie?.poster_path}

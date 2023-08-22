@@ -15,10 +15,12 @@ import {
   addMovieToBookmarked,
   getBookmarkError,
   removeFromBookmarked,
+  updateBookmarks,
 } from "./bookmarkSlice";
 import { signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import toast from "react-hot-toast";
+import firebase from "firebase/compat/app";
 
 export const notifySuccess = (message: string) => toast.success(message);
 export const notifyError = (message: string) => toast.error(message);
@@ -86,7 +88,7 @@ export const removeMovieFromBookmarks = createAsyncThunk(
     const movieId = id.toString();
     try {
       dispatch(removeFromBookmarked(id));
-      await deleteDoc(doc(db, `${user?.uid as string}`, movieId))
+      await deleteDoc(doc(db, `${user?.uid as string}`, movieId));
       notifySuccess(`Movie Id: ${id} was successfully deleted`);
     } catch (error: any) {
       notifyError(`failed to remove  ${id}`);
@@ -110,11 +112,12 @@ export const getBookmarksFromFirebaseDB = createAsyncThunk(
     const getBookmarkItems = async (db: any) => {
       const bookmarkCol = collection(db, `${user?.uid as string}`);
       const bookmarkSnapshot = await getDocs(bookmarkCol);
-      const bookmarkList = bookmarkSnapshot.docs.map((doc) => doc.data());
+      const bookmarkList = bookmarkSnapshot.docs.map((doc) => doc.data() as MovieThunkProp);
       return bookmarkList;
     };
     try {
       let allBookmarks = await getBookmarkItems(db);
+      dispatch(updateBookmarks(allBookmarks));
       if (allBookmarks.length) {
         const bookmarkStateString = JSON.stringify(allBookmarks);
         if (typeof window !== "undefined") {
@@ -132,3 +135,26 @@ export const getBookmarksFromFirebaseDB = createAsyncThunk(
     }
   }
 );
+
+// export const getBookmarksFromFirebaseDB = createAsyncThunk(
+//   "bookmark/getBookmarksFromFirebaseDB",
+//   async (_, { getState, dispatch }) => {
+//     const state = getState() as RootState;
+//     const user = state.bookmark.user;
+//     const db = firebase.firestore(); 
+//     const collectionRef = db.collection(`${user?.uid as string}`);
+//     const initialSnapshot = await collectionRef.get();
+//     const initialBookmarkList = initialSnapshot.docs.map(
+//       (doc) => doc.data() as MovieThunkProp
+//     );
+//     dispatch(updateBookmarks(initialBookmarkList));
+//     const unsubscribe = collectionRef.onSnapshot((snapshot) => {
+//       const updatedBookmarkList = snapshot.docs.map(
+//         (doc) => doc.data() as MovieThunkProp
+//       );
+//       dispatch(updateBookmarks(updatedBookmarkList));
+//     });
+//     return () => unsubscribe();
+//   }
+// );
+
