@@ -16,7 +16,7 @@ interface BookMarkState {
 }
 
 const initialState: BookMarkState = {
-  bookmarked: localStorageBookmarks ? localStorageBookmarks : [],
+  bookmarked: [],
   error: null,
   bookmarkError: null,
   user: null,
@@ -43,6 +43,9 @@ const bookmarkSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    updateBookmarks(state, action: PayloadAction<MovieThunkProp[]>) {
+      state.bookmarked = action.payload;
+    },
   },
 });
 
@@ -52,6 +55,7 @@ export const {
   addBookmarkFail,
   getBookmarkError,
   setUser,
+  updateBookmarks,
 } = bookmarkSlice.actions;
 
 export default bookmarkSlice.reducer;
