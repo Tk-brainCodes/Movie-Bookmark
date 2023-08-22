@@ -5,7 +5,6 @@ import { results } from "../../data/movie";
 import { useAppSelector } from "../../redux/hooks";
 import MovieCard from "./components/MovieCard";
 import AnimatedWrapper from "./components/AnimationWrapper";
-import Header from "./components/Header";
 import { getBookmarksFromFirebaseDB } from "../../redux/features/bookmarkThunk";
 import { useAppDispatch } from '../../redux/hooks';
 
@@ -21,7 +20,6 @@ export default function Home() {
 
   return (
     <>
-      <Header />
       <div className='h-auto px-4 py-4'>
         <h1 className='text-2xl text-white font-semibold'>Movies</h1>
         <AnimatedWrapper>
