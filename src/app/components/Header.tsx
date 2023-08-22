@@ -20,6 +20,7 @@ const Header = () => {
       (state) => state.bookmark.bookmarked
     );
   const [firebaseError, setFirebaseError] = useState<string>("");
+  const [bookmarkLength, setBookmarkLength] = useState<any[]>([])
 
   const handleGoogleSignIn = async () => {
     try {
@@ -33,10 +34,17 @@ const Header = () => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser: any) => {
       dispatch(setUser(currentUser));
     });
+    let locatStorageBookmark =  typeof window !== "undefined"
+        ? JSON.parse(localStorage.getItem("myBookmarks") || "[]")
+        : "";
+
+    setBookmarkLength(locatStorageBookmark)    
     return () => {
       unsubscribe();
     };
   }, [dispatch]);
+
+  const length = bookmarkLength.length;
 
   return (
     <div className='flex px-4 py-4 items-center bg-slate-900 justify-between'>
@@ -45,9 +53,11 @@ const Header = () => {
           {firebaseError}
         </h3>
       )}
-      <h3 className='text-sm text-orange-600'>
-        my<span className="text-white">Bookmarks</span>
-      </h3>
+      <Link href="/">
+        <h3 className='text-sm text-orange-600'>
+          my<span className="text-white">Bookmarks</span>
+        </h3>
+      </Link>
       <div className='flex gap-3'>
         <button
           className='px-3 py-2 bg-blue-600 text-sm text-white rounded-full'
@@ -85,9 +95,9 @@ const Header = () => {
             >
               <BookmarkBorderIcon />
             </motion.span>
-            {bookmarkedMovies && (
+            {length && (
               <span className='absolute -top-[8px] -right-[10px] w-5 h-5 bg-red-600 rounded-full flex items-center font-normal justify-center text-white text-xs'>
-                4
+                {length}
               </span>
             )}
           </button>
