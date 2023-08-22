@@ -23,7 +23,7 @@
 <br/>
 
 <div align="center">
-  <a href="https://github.com/Khanhtran47/remix-movie">
+  <a href="https://github.com/Tk-brainCodes/Movie-Bookmark">
     <img src="./public/home.png" alt="screenshot">
        <img src="./public/bookmarks.png" alt="screenshot">
           <img src="./public/adding-movies.png" alt="screenshot">
