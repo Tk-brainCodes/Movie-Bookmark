@@ -47,7 +47,7 @@ const Header = () => {
   const length = bookmarkLength.length;
 
   return (
-    <div className='flex px-4 py-4 items-center bg-slate-900 justify-between'>
+    <div className='flex px-4 py-4 items-center bg-black border-b-2 border-slate-600 justify-between'>
       {firebaseError && (
         <h3 className='text-red-600 bg-red-100 px-2 py-2 rounded-md text-sm w-[20em]'>
           {firebaseError}
