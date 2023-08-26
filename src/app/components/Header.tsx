@@ -7,20 +7,18 @@ import { googleSignIn } from "../../../redux/features/bookmarkThunk";
 import { setUser } from "../../../redux/features/bookmarkSlice";
 import { usePathname } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
+import { getBookmarksFromFirebaseDB } from "../../../redux/features/bookmarkThunk";
 import { auth } from "../../../firebase.config";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.bookmark.user);
-    const bookmarkedMovies = useAppSelector(
-      (state) => state.bookmark.bookmarked
-    );
+  const bookmarkedMovies = useAppSelector((state) => state.bookmark.bookmarked);
   const [firebaseError, setFirebaseError] = useState<string>("");
-  const [bookmarkLength, setBookmarkLength] = useState<any[]>([])
 
   const handleGoogleSignIn = async () => {
     try {
@@ -34,17 +32,14 @@ const Header = () => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser: any) => {
       dispatch(setUser(currentUser));
     });
-    let locatStorageBookmark =  typeof window !== "undefined"
-        ? JSON.parse(localStorage.getItem("myBookmarks") || "[]")
-        : "";
+    dispatch(getBookmarksFromFirebaseDB());
 
-    setBookmarkLength(locatStorageBookmark)    
     return () => {
       unsubscribe();
     };
   }, [dispatch]);
 
-  const length = bookmarkLength.length;
+  const length = bookmarkedMovies.length;
 
   return (
     <div className='flex px-4 py-4 items-center bg-black border-b-2 border-slate-600 justify-between'>
@@ -53,9 +48,9 @@ const Header = () => {
           {firebaseError}
         </h3>
       )}
-      <Link href="/">
+      <Link href='/'>
         <h3 className='text-sm text-orange-600'>
-          my<span className="text-white">Bookmarks</span>
+          my<span className='text-white'>Bookmarks</span>
         </h3>
       </Link>
       <div className='flex gap-3'>
