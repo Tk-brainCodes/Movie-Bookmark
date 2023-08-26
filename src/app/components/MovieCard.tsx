@@ -75,7 +75,6 @@ export default function MovieCard({
     checkIfItemExists();
   }, [exists, bookmarks]);
 
-
   return (
     <div className='w-fit mt-[20px]'>
       <Toaster />

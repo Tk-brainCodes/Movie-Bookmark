@@ -112,7 +112,9 @@ export const getBookmarksFromFirebaseDB = createAsyncThunk(
     const getBookmarkItems = async (db: any) => {
       const bookmarkCol = collection(db, `${user?.uid as string}`);
       const bookmarkSnapshot = await getDocs(bookmarkCol);
-      const bookmarkList = bookmarkSnapshot.docs.map((doc) => doc.data() as MovieThunkProp);
+      const bookmarkList = bookmarkSnapshot.docs.map(
+        (doc) => doc.data() as MovieThunkProp
+      );
       return bookmarkList;
     };
     try {
@@ -141,7 +143,7 @@ export const getBookmarksFromFirebaseDB = createAsyncThunk(
 //   async (_, { getState, dispatch }) => {
 //     const state = getState() as RootState;
 //     const user = state.bookmark.user;
-//     const db = firebase.firestore(); 
+//     const db = firebase.firestore();
 //     const collectionRef = db.collection(`${user?.uid as string}`);
 //     const initialSnapshot = await collectionRef.get();
 //     const initialBookmarkList = initialSnapshot.docs.map(
@@ -157,4 +159,3 @@ export const getBookmarksFromFirebaseDB = createAsyncThunk(
 //     return () => unsubscribe();
 //   }
 // );
-
