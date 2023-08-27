@@ -20,7 +20,6 @@ import {
 import { signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import toast from "react-hot-toast";
-import firebase from "firebase/compat/app";
 
 export const notifySuccess = (message: string) => toast.success(message);
 export const notifyError = (message: string) => toast.error(message);
@@ -138,24 +137,3 @@ export const getBookmarksFromFirebaseDB = createAsyncThunk(
   }
 );
 
-// export const getBookmarksFromFirebaseDB = createAsyncThunk(
-//   "bookmark/getBookmarksFromFirebaseDB",
-//   async (_, { getState, dispatch }) => {
-//     const state = getState() as RootState;
-//     const user = state.bookmark.user;
-//     const db = firebase.firestore();
-//     const collectionRef = db.collection(`${user?.uid as string}`);
-//     const initialSnapshot = await collectionRef.get();
-//     const initialBookmarkList = initialSnapshot.docs.map(
-//       (doc) => doc.data() as MovieThunkProp
-//     );
-//     dispatch(updateBookmarks(initialBookmarkList));
-//     const unsubscribe = collectionRef.onSnapshot((snapshot) => {
-//       const updatedBookmarkList = snapshot.docs.map(
-//         (doc) => doc.data() as MovieThunkProp
-//       );
-//       dispatch(updateBookmarks(updatedBookmarkList));
-//     });
-//     return () => unsubscribe();
-//   }
-// );

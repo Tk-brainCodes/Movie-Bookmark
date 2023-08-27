@@ -2,10 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MovieThunkProp } from "../../types/movie.type";
 import { UserProps } from "../../types/movie.type";
 
-let localStorageBookmarks =
-  typeof window !== "undefined"
-    ? JSON.parse(localStorage.getItem("myBookmarks") as string)
-    : "";
 
 interface BookMarkState {
   bookmarked: MovieThunkProp[];
