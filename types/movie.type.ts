@@ -29,7 +29,6 @@ export interface MovieCardProps {
   user: UserProps
 }
 
-
 export interface MovieThunkProp {
   background?: string;
   date?: string;
