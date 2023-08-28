@@ -95,7 +95,7 @@ const Header = () => {
             </span>
             {length && (
               <span className='absolute -top-[8px] -right-[10px] w-5 h-5 bg-red-600 rounded-full flex items-center font-normal justify-center text-white text-xs'>
-                {length}
+                {user ? `${length}` : "0"}
               </span>
             )}
           </button>
