@@ -20,10 +20,9 @@ export default function Home() {
 
   return (
     <>
-      <div className='h-auto px-4 py-4'>
-        <h1 className='text-2xl text-white font-semibold'>Movies</h1>
+      <div className='h-auto flex flex-col items-center justify-center px-4 py-4'>
         <AnimatedWrapper>
-          <div className='grid grid-cols-fluid gap-3 items-center max-sm:flex max-sm:justify-center max-sm:flex-col'>
+          <div className='grid grid-cols-4 max-md:grid-cols-2 gap-6 max-sm:grid-cols-1 gap-3 items-center max-sm:flex max-sm:justify-center max-sm:flex-col'>
             {results.map((movie) => {
               return (
                 <div key={movie?.id}>

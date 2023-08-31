@@ -25,7 +25,7 @@ const Bookmark = () => {
 
   return (
     <AnimatedWrapper>
-      <div className='px-6 py-6 w-[100vw] overflow-x-hidden'>
+      <div className='flex flex-col items-center justify-center px-6 py-6 w-[100vw] overflow-x-hidden'>
         <Toaster />
         <h1 className='font-semibold mb-[20px] text-white'>My Bookmarks</h1>
         <div>
@@ -33,7 +33,7 @@ const Bookmark = () => {
             <h2>Sorry no bookmarks :(</h2>
           ) : (
             <>
-              <div className='grid grid-cols-fluid gap-3 items-center max-sm:flex max-sm:justify-center max-sm:flex-col'>
+              <div className='grid grid-cols-4 max-md:grid-cols-2 gap-6 items-center max-sm:flex max-sm:justify-center max-sm:flex-col'>
                 {bookmarkedMovies?.map((movie: any) => (
                   <div key={movie?.id} className='w-[250px]'>
                     <Image
