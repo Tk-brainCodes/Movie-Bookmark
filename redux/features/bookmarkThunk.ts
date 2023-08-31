@@ -119,12 +119,6 @@ export const getBookmarksFromFirebaseDB = createAsyncThunk(
     try {
       let allBookmarks = await getBookmarkItems(db);
       dispatch(updateBookmarks(allBookmarks));
-      if (allBookmarks.length) {
-        const bookmarkStateString = JSON.stringify(allBookmarks);
-        if (typeof window !== "undefined") {
-          localStorage.setItem("myBookmarks", bookmarkStateString);
-        }
-      }
     } catch (error: any) {
       dispatch(
         getBookmarkError(

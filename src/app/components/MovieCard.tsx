@@ -46,18 +46,10 @@ export default function MovieCard({
     setExists(itemExists);
   };
 
-  const [isBookmarked, setBookmarked] = useState<boolean>(() => {
-    const doesMovieExist = bookmarks.find(
-      (movie: any) => movie?.id === movieId
-    );
-    return !!doesMovieExist;
-  });
-
   const handleAddToBookmark = (movie: any) => {
     try {
       if (user) {
         dispatch(addMovieToBookmarkedDB(movie));
-        setBookmarked((prev) => !prev);
       }
     } catch (error) {
       console.log(error);
@@ -67,7 +59,6 @@ export default function MovieCard({
   const handleRemoveMovieFromBookmark = (id: number) => {
     if (user) {
       dispatch(removeMovieFromBookmarks(id));
-      setBookmarked((prev) => !prev);
     }
   };
 
