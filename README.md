@@ -10,7 +10,7 @@
     <br/>
     Link:
     <a href="https://dev.to/thankgod/crafting-your-personal-movie-bookmark-application-using-next-13413-redux-toolkit-firebase-and-typescript-2dgj" targer="_blank">
-      Crafting Your Personal Movie Bookmark Application using Next 13.4.13, Redux Toolkit, Firebase, and TypeScript
+      Creating Your Personal Movie Bookmark Application using Next 13.4.13, Redux Toolkit, Firebase, and TypeScript
     </a>
     <br />
   </p>
